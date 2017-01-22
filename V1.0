@@ -1,0 +1,65 @@
+// Shutter Speed Tester
+// Written by Richard Green
+// Last Updated 22/01/2017
+
+// Adafruit UNO
+
+int receiverPin = 12; // input from the ir receiver.
+int ledpin = 13; // indicator LED
+float duration; // time shutter is open
+int shutterspeed; // measured shutter speed
+int one;
+float resultsecs; //micros converted to secs
+
+void setup()
+{
+ pinMode(receiverPin, INPUT);
+ Serial.begin(9600);
+ one = 1;
+ 
+ Serial.println("Shutter Speed Tester V1.0");
+ Serial.println();
+
+ 
+}
+
+void loop()
+ {
+ // measure the time receiver pin is low
+ duration = pulseIn(receiverPin, LOW);
+ 
+ // if duration is not equal to zero calculate shutter speed
+ if(duration != 0 )
+ {
+   // convert micros to seconds
+   resultsecs = duration / 1000000;
+   
+   // convert shutter speed to a fraction
+   shutterspeed = one / (resultsecs);
+
+   Serial.println();
+   Serial.println();
+   Serial.println();
+   Serial.println("Shutter Fired!");
+   Serial.println();
+   Serial.println("Measured Pulse = ");
+   Serial.print(duration); Serial.println(" microseconds");
+   Serial.print(resultsecs); Serial.println(" seconds");
+   
+   // flash LED to indicate measurement detected
+   digitalWrite(ledpin, HIGH);
+   delay(500);
+   digitalWrite(ledpin, LOW);
+   
+   Serial.println();
+   Serial.print("Shutter Speed = 1/"); Serial.print(shutterspeed);
+   Serial.println();
+   Serial.println();
+   Serial.println();
+   Serial.println();
+   Serial.println();
+   Serial.println();
+
+  // add oled display section here
+ }
+}
